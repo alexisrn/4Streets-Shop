@@ -11,6 +11,7 @@ export default function Produto() {
   const { id } = router.query;
   const [produto, setProduto] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [imagePrimary, setImagePrimary] = useState< string | null >(null)
   const { addToCart } = useCart();
   
   const handleAddToCart = (item: { id: number; title: string; price: number }) => {
@@ -25,7 +26,11 @@ export default function Produto() {
         try {
           const productId = Array.isArray(id) ? id[0] : id;
           const data = await getProductsID(productId);
+          //setar o produto no array
           setProduto(data);
+          //setar imagem primaria como thumbnail
+          setImagePrimary(data.thumbnail);
+          // icone loading caso nao carregue os produtos da api
           setLoading(false);
         } catch (error) {
           setLoading(false);
@@ -55,8 +60,8 @@ export default function Produto() {
 
               {produto.images && produto.images.length > 0 ? (
                   produto.images.map((image: string, index: number) => (
-                    <div key={index} className='w-full h-[25%]'>
-                      <img src={image} alt={`Image ${index + 1}`} className="w-full h-full object-cover" />
+                    <div key={index} className='w-full h-[25%] cursor-pointer' onClick={() => setImagePrimary(image)}>
+                      <img src={image} alt={`Image ${index + 1}`} className="w-full h-full object-cover"  />
                     </div>
                   ))
                 ) : (
@@ -65,7 +70,7 @@ export default function Produto() {
             </div>
             
             <div className='w-full h-full flex items-center justify-center'>
-            <img src={produto.thumbnail} alt={produto.title} className="w-[80%] h-auto mt-4" />
+            <img src={imagePrimary || produto.thumbnail}alt={produto.title} className="w-[80%] h-auto mt-4" />
             </div>
           </div>
 
