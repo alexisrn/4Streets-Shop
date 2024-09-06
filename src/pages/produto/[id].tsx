@@ -2,7 +2,7 @@ import AccordionComp from '@/components/Accordion';
 import { useCart } from '@/context/CartContext';
 import Layout from '@/template/Layout';
 import { getProductsID } from '@/utils/api';
-import { Accordion, Button, Select, SelectItem, Spinner } from '@nextui-org/react';
+import { Accordion, Button, Spinner } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -11,7 +11,7 @@ export default function Produto() {
   const { id } = router.query;
   const [produto, setProduto] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [imagePrimary, setImagePrimary] = useState< string | null >(null)
+  const [imagePrimary, setImagePrimary] = useState<string | null>(null);
   const { addToCart } = useCart();
   
   const handleAddToCart = (item: { id: number; title: string; price: number }) => {
@@ -19,18 +19,14 @@ export default function Produto() {
     router.push('/cart');
   };
 
-
   useEffect(() => {
     if (id) {
       const fetchProduct = async () => {
         try {
           const productId = Array.isArray(id) ? id[0] : id;
           const data = await getProductsID(productId);
-          //setar o produto no array
           setProduto(data);
-          //setar imagem primaria como thumbnail
           setImagePrimary(data.thumbnail);
-          // icone loading caso nao carregue os produtos da api
           setLoading(false);
         } catch (error) {
           setLoading(false);
@@ -41,79 +37,72 @@ export default function Produto() {
   }, [id]);
 
   if (loading) {
-    return <div>
-      <Spinner/></div>;
+    return <div className='flex justify-center items-center h-screen'><Spinner/></div>;
   }
 
   if (!produto) {
-    return <div>Produto não encontrado</div>;
+    return <div className='text-center mt-10'>Produto não encontrado</div>;
   }
 
   return (
-    <>
     <Layout color="bg-black/90" title={`${produto.title} - 4Streets`}>
-    <div className='w-full pt-[100px] h-full'>
-      <div className='flex justify-center'>  
-          <div className='w-[50%] h-[500px] flex px-10'>
-            <div className='w-[20%] flex flex-col justify-between gap-2'>
-          
-
+      <div className='w-full pt-[100px] h-full'>
+        <div className='flex flex-col lg:flex-row justify-center items-center lg:items-start'>  
+          <div className='w-full lg:w-1/2 h-[400px] lg:h-[500px] flex flex-col lg:flex-row px-4 lg:px-10'>
+           {/* // Miniaturas das imagens do produto */}
+            <div className='w-full lg:w-[20%] flex lg:flex-col justify-between gap-2 mb-4 lg:mb-0'>
               {produto.images && produto.images.length > 0 ? (
-                  produto.images.map((image: string, index: number) => (
-                    <div key={index} className='w-full h-[25%] cursor-pointer' onClick={() => setImagePrimary(image)}>
-                      <img src={image} alt={`Image ${index + 1}`} className="w-full h-full object-cover"  />
-                    </div>
-                  ))
-                ) : (
-                  <p>Sem imagens adicionais.</p>
-                )}
+                produto.images.map((image: string, index: number) => (
+                  <div key={index} className='w-full h-[75px] cursor-pointer' onClick={() => setImagePrimary(image)}>
+                    <img src={image} alt={`Image ${index + 1}`} className="w-full h-full object-cover rounded-lg" />
+                  </div>
+                ))
+              ) : (
+                <p>Sem imagens adicionais.</p>
+              )}
             </div>
-            
-            <div className='w-full h-full flex items-center justify-center'>
-            <img src={imagePrimary || produto.thumbnail}alt={produto.title} className="w-[80%] h-auto mt-4" />
+            {/* Imagem principal */}
+            <div className='w-full lg:w-[80%] h-full flex items-center justify-center'>
+              <img src={imagePrimary || produto.thumbnail} alt={produto.title} className="w-[80%] h-auto object-contain" />
             </div>
           </div>
 
-          <div className='w-[50%] h-full flex flex-col gap-3'>
-            <h1 className='text-[40px]'>{produto.title}</h1>
-            <p className='text-xl'>{produto.category}</p>
-            <p className='text-red-600 font-bold text-3xl'>R$ {produto.price}</p>
-            <span className='text-2xl'>{produto.description}</span>
-            <span className='text-xl'>Tamanho: {produto.dimensions.width}</span>
+          {/* Informações do produto */}
+          <div className='w-full lg:w-1/2 h-full flex flex-col gap-3 px-4 lg:px-0'>
+            <h1 className='text-[32px] lg:text-[40px]'>{produto.title}</h1>
+            <p className='text-lg lg:text-xl'>{produto.category}</p>
+            <p className='text-red-600 font-bold text-2xl lg:text-3xl'>R$ {produto.price}</p>
+            <span className='text-lg lg:text-2xl'>{produto.description}</span>
+            <span className='text-md lg:text-xl'>Tamanho: {produto.dimensions.width}</span>
+
             <div>
-            <Button 
-            onClick={() => handleAddToCart({ id: produto.id, title: produto.title, price: produto.price })}
-             className="className='bg-black hover:bg-black text-black font-semibold border-none hover:text-white py-2 px-9 border border-black hover:border-transparent rounded text-[20px]" >
-            Adicionar no carrinho
-            </Button>
+              <Button 
+                onClick={() => handleAddToCart({ id: produto.id, title: produto.title, price: produto.price })}
+                className="bg-black hover:bg-black text-white font-semibold py-2 px-4 lg:px-9 rounded text-[18px] lg:text-[20px]">
+                Adicionar no carrinho
+              </Button>
             </div>
 
             <div className='mt-5'>
-            <span className='text-xl'>Tag</span>
-            <p>{produto.tags}</p>
-            <span className='text-xl'>SKU</span>
-            <p>{produto.sku}</p>
+              <span className='text-md lg:text-xl'>Tag</span>
+              <p>{produto.tags}</p>
+              <span className='text-md lg:text-xl'>SKU</span>
+              <p>{produto.sku}</p>
             </div>
-         
           </div>
+        </div>
 
-      </div>
-
-        <div className='px-8 mt-10 '>
+        <div className='px-4 lg:px-8 mt-10'>
           <AccordionComp 
-          title={produto.title} 
-          description={produto.description}
-          stock={produto.stock}
+            title={produto.title} 
+            description={produto.description}
+            stock={produto.stock}
             warrantyInformation={produto.warrantyInformation}
             shippingInformation={produto.shippingInformation}
             reviews={produto.reviews}
-          
           />
-          </div>
-
-          
-    </div>
+        </div>
+      </div>
     </Layout>
-    </>
   );
 }
