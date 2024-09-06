@@ -10,6 +10,7 @@ interface CartItem {
 interface CartContextType {
   cart: CartItem[];
   total: number;
+  cartQuantity: number;
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: number) => void;
 }
@@ -19,6 +20,7 @@ export const CartContext = createContext<CartContextType | undefined>(undefined)
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [total, setTotal] = useState(0);
+  const [cartQuantity, setCartQuantity] = useState(0);
 
   // Carregar o carrinho do localStorage ao iniciar
   useEffect(() => {
@@ -27,15 +29,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       const parsedCart = JSON.parse(savedCart);
       setCart(parsedCart);
       setTotal(parsedCart.reduce((acc:any, curr:any) => acc + curr.price, 0));
+      setCartQuantity(parsedCart.length);
     }
   }, []);
 
-  // Atualizar o localStorage quando o carrinho mudar
+  // Atualizar o localStorage e a quantidade de itens quando o carrinho mudar
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
+    setCartQuantity(cart.length); // Atualiza a quantidade de itens no carrinho
   }, [cart]);
 
   const addToCart = (item: CartItem) => {
+    console.log('Adicionando ao carrinho:', item);
     setCart((prevCart) => {
       const updatedCart = [...prevCart, item];
       setTotal(updatedCart.reduce((acc, curr) => acc + curr.price, 0));
@@ -52,7 +57,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, total, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, total, cartQuantity, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );
@@ -61,7 +66,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("Error");
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };

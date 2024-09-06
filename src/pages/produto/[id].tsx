@@ -16,7 +16,6 @@ export default function Produto() {
   
   const handleAddToCart = (item: { id: number; title: string; price: number }) => {
     addToCart(item);
-    router.push('/cart');
   };
 
   useEffect(() => {
