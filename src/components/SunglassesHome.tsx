@@ -19,7 +19,6 @@ export default function SunglassesHome() {
 
     const handleAddToCart = (item: { id: number; title: string; price: number }) => {
       addToCart(item);
-      router.push('/cart'); // Navega para a página do carrinho
     };
 
     useEffect(() => {
@@ -32,9 +31,9 @@ export default function SunglassesHome() {
         <h2 className='text-center text-5xl py-8 font-bold'>OS MELHORES <span className='text-red-600'>OCÚLOS</span></h2>
    
    <div className='flex flex-wrap items-center justify-center gap-20 mb-14'>
-    {itens.map((item) => (
+    {itens.map((item, i) => (
         <>
-        <CardHome imagem={item.thumbnail} title={item.title} price={item.price} id={item.id} onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}/>
+        <CardHome key={i} imagem={item.thumbnail} title={item.title} price={item.price} id={item.id} onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}/>
         </>
     ))}
    

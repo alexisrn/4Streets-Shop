@@ -23,6 +23,21 @@ export default function AccordionComp(props:any) {
         
         title={<span className="text-3xl">Reviews</span>}
       >
+         {props.reviews && props.reviews.length > 0 ? (
+              props.reviews.map((review: any, index: number) => (
+                <div key={index} className='border-b py-4'>
+                  <p className='text-lg font-semibold'>{review.reviewerName}</p>
+                  <p className='text-sm text-gray-600'>{review.reviewerEmail}</p>
+                  <p className='mt-2'>Rating: {review.rating}/5</p>
+                  <p className='mt-2'>"{review.comment}"</p>
+                  <p className='mt-2 text-gray-500 text-sm'>
+                    {new Date(review.date).toLocaleDateString()}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p>Nenhum review disponível para este produto.</p>
+            )}
       </AccordionItem>
      
     </Accordion>

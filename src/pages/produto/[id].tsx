@@ -15,7 +15,7 @@ export default function Produto() {
   
   const handleAddToCart = (item: { id: number; title: string; price: number }) => {
     addToCart(item);
-    router.push('/cart'); // Navega para a página do carrinho
+    router.push('/cart');
   };
 
 
@@ -51,11 +51,17 @@ export default function Produto() {
       <div className='flex justify-center'>  
           <div className='w-[50%] h-[500px] flex px-10'>
             <div className='w-[20%] flex flex-col justify-between gap-2'>
-              <div className='w-full h-[25%] bg-blue-500'>ae</div>
-              <div className='w-full h-[25%] bg-blue-500'>ae</div>
-              <div className='w-full h-[25%] bg-blue-500'>ae</div>
-              <div className='w-full h-[25%] bg-blue-500'>ae</div>
-              
+          
+
+              {produto.images && produto.images.length > 0 ? (
+                  produto.images.map((image: string, index: number) => (
+                    <div key={index} className='w-full h-[25%]'>
+                      <img src={image} alt={`Image ${index + 1}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))
+                ) : (
+                  <p>Sem imagens adicionais.</p>
+                )}
             </div>
             
             <div className='w-full h-full flex items-center justify-center'>
@@ -95,9 +101,12 @@ export default function Produto() {
           stock={produto.stock}
             warrantyInformation={produto.warrantyInformation}
             shippingInformation={produto.shippingInformation}
+            reviews={produto.reviews}
           
           />
           </div>
+
+          
     </div>
     </Layout>
     </>
