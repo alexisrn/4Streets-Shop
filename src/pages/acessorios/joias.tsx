@@ -7,19 +7,22 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
-export default function roupasMasculina(props:any) {
+export default function Joias(props:any) {
     const [itens, setItens] = useState<any[]>([]);
+    const [itemWoman, setItemWoman] = useState<any[]>([])
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
     const router = useRouter();
   
     const fetchProducts = async () => {
-        const data = await getCategoryProducts("mens-shirts");
+        const data = await getCategoryProducts("womens-jewellery");
         if (data && data.products) { 
           setItens(data.products); 
         }
         setLoading(false);
       };
+
+      
 
       useEffect(() => {
         fetchProducts();
@@ -27,6 +30,7 @@ export default function roupasMasculina(props:any) {
   
     const handleAddToCart = (item: { id: number; title: string; price: number }) => {
       addToCart(item);
+
     };
 
   return (
@@ -40,8 +44,8 @@ export default function roupasMasculina(props:any) {
       }}
     >
      <BreadcrumbItem> <Link href='/'>Home</Link></BreadcrumbItem>
-      <BreadcrumbItem>Vestuario</BreadcrumbItem>
-      <BreadcrumbItem>Roupas Masculina</BreadcrumbItem>
+      <BreadcrumbItem>Acessórios</BreadcrumbItem>
+      <BreadcrumbItem>Joias</BreadcrumbItem>
     </Breadcrumbs>
 
 
@@ -53,6 +57,17 @@ export default function roupasMasculina(props:any) {
       ) : (
         <div className='flex flex-wrap items-center justify-center gap-20 mb-14'>
           {itens.map((item) => (
+            <CardHome
+              id={item.id}
+              key={item.id}
+              imagem={item.thumbnail}
+              title={item.title}
+              price={item.price}
+              onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}
+            />
+          ))}
+
+{itemWoman.map((item) => (
             <CardHome
               id={item.id}
               key={item.id}

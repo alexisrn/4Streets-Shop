@@ -3,6 +3,7 @@ import CardHome from './Card';
 import  { getMenShoes, getMensShirts, getProducts, getSunglasses } from '../utils/api'
 import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function SunglassesHome() {
     const [itens, setItens] = useState<any[]>([]);
@@ -40,7 +41,9 @@ export default function SunglassesHome() {
     </div>
         <div className='w-full flex justify-center mb-10'>
           <button className='bg-transparent
-           hover:bg-black text-black font-semibold hover:text-white py-2 px-9 border border-black hover:border-transparent rounded text-[20px]'>Ver Mais</button>
+           hover:bg-black text-black font-semibold hover:text-white py-2 px-9 border border-black hover:border-transparent rounded text-[20px]'>
+            <Link href="/acessorios/oculos">Ver Mais</Link>
+            </button>
         </div>
     </div>
     </>

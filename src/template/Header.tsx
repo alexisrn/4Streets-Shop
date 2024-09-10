@@ -41,11 +41,13 @@ export default function Header(props: any) {
           <h1 className={`text-4xl p-[12px] ${lobster.className}`}>4Streets</h1>
         </Link>
         <ul className='hidden md:flex items-center gap-12 text-[20px] mt-3 ml-10'>
-          <li>Ofertas</li>
+          <li className="cursor-pointer">
+           <Link href="/">Ofertas</Link>
+            </li>
 
           <Dropdown className='bg-black/90 text-white rounded-[8px] mt-[3px]'>
             <DropdownTrigger>
-              <li className='flex items-center'>
+              <li className='flex items-center cursor-pointer'>
                 Vestuário <IoMdArrowDropdown />
               </li>
             </DropdownTrigger>
@@ -67,15 +69,23 @@ export default function Header(props: any) {
 
           <Dropdown className='bg-black/90 text-white rounded-[8px] mt-[3px]'>
             <DropdownTrigger>
-              <li className='flex items-center'>
+              <li className='flex items-center cursor-pointer'>
                 Acessórios <IoMdArrowDropdown />
               </li>
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions">
-              <DropdownItem key="sunglasses">Óculos</DropdownItem>
-              <DropdownItem key="watches">Relógio</DropdownItem>
-              <DropdownItem key="bags">Bolsa</DropdownItem>
-              <DropdownItem key="jewelry">Joias</DropdownItem>
+              <DropdownItem key="sunglasses">
+               <Link href="/acessorios/oculos">Óculos</Link> 
+              </DropdownItem>
+              <DropdownItem key="watches">
+              <Link href="/acessorios/relogios">Relógio</Link>  
+                </DropdownItem>
+              <DropdownItem key="bags">
+              <Link href="/acessorios/bolsas">Bolsa</Link>
+              </DropdownItem>
+              <DropdownItem key="jewelry">
+              <Link href="/acessorios/joias">Joias</Link>
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </ul>

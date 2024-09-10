@@ -7,26 +7,32 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
-export default function roupasMasculina(props:any) {
+export default function Relogio(props:any) {
     const [itens, setItens] = useState<any[]>([]);
+    const [itemWoman, setItemWoman] = useState<any[]>([])
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
     const router = useRouter();
   
     const fetchProducts = async () => {
-        const data = await getCategoryProducts("mens-shirts");
+        const data = await getCategoryProducts("womens-bags");
         if (data && data.products) { 
           setItens(data.products); 
         }
         setLoading(false);
       };
 
+    
+     
+
       useEffect(() => {
         fetchProducts();
+       
       }, []);
   
     const handleAddToCart = (item: { id: number; title: string; price: number }) => {
       addToCart(item);
+
     };
 
   return (
@@ -40,8 +46,8 @@ export default function roupasMasculina(props:any) {
       }}
     >
      <BreadcrumbItem> <Link href='/'>Home</Link></BreadcrumbItem>
-      <BreadcrumbItem>Vestuario</BreadcrumbItem>
-      <BreadcrumbItem>Roupas Masculina</BreadcrumbItem>
+      <BreadcrumbItem>Acessórios</BreadcrumbItem>
+      <BreadcrumbItem>Relogios</BreadcrumbItem>
     </Breadcrumbs>
 
 
@@ -62,6 +68,8 @@ export default function roupasMasculina(props:any) {
               onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}
             />
           ))}
+
+
         </div>
       )}
     </div>

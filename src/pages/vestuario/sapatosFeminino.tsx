@@ -16,7 +16,7 @@ export default function TenisMasculino(props:any) {
     const fetchProducts = async () => {
         const data = await getCategoryProducts("womens-shoes");
         if (data && data.products) { 
-          setItens(data.products.slice(0, 4)); 
+          setItens(data.products); 
         }
         setLoading(false);
       };
@@ -32,7 +32,7 @@ export default function TenisMasculino(props:any) {
   return (
     <>
     <Layout title="Roupas Masculina - 4Streets" color='bg-black/90'  >
-        <div className='w-full h-[700px]  py-[100px] px-10'>
+        <div className='w-full h-full  py-[100px] px-10'>
         <Breadcrumbs
       separator="/"
       itemClasses={{

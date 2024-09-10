@@ -7,16 +7,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
-export default function roupasMasculina(props:any) {
+export default function Oculos(props:any) {
     const [itens, setItens] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
     const router = useRouter();
   
     const fetchProducts = async () => {
-        const data = await getCategoryProducts("mens-shirts");
+        const data = await getCategoryProducts("sunglasses");
         if (data && data.products) { 
-          setItens(data.products); 
+          setItens(data.products.slice(0, 4)); 
         }
         setLoading(false);
       };
@@ -27,12 +27,13 @@ export default function roupasMasculina(props:any) {
   
     const handleAddToCart = (item: { id: number; title: string; price: number }) => {
       addToCart(item);
+
     };
 
   return (
     <>
     <Layout title="Roupas Masculina - 4Streets" color='bg-black/90'  >
-        <div className='w-full h-full py-[100px] px-10'>
+        <div className='w-full h-[700px]  py-[100px] px-10'>
         <Breadcrumbs
       separator="/"
       itemClasses={{
@@ -40,8 +41,8 @@ export default function roupasMasculina(props:any) {
       }}
     >
      <BreadcrumbItem> <Link href='/'>Home</Link></BreadcrumbItem>
-      <BreadcrumbItem>Vestuario</BreadcrumbItem>
-      <BreadcrumbItem>Roupas Masculina</BreadcrumbItem>
+      <BreadcrumbItem>Acessórios</BreadcrumbItem>
+      <BreadcrumbItem>Óculos</BreadcrumbItem>
     </Breadcrumbs>
 
 
