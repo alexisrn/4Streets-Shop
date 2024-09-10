@@ -4,22 +4,23 @@ import Layout from '@/template/Layout'
 import { getCategoryProducts } from '@/utils/api';
 import {Breadcrumbs, BreadcrumbItem, Spinner} from "@nextui-org/react";
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
 export default function Oculos(props:any) {
     const [itens, setItens] = useState<any[]>([]);
+    const [itemWoman, setItemWoman] = useState<any[]>([])
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
-    const router = useRouter();
   
     const fetchProducts = async () => {
         const data = await getCategoryProducts("sunglasses");
         if (data && data.products) { 
-          setItens(data.products.slice(0, 4)); 
+          setItens(data.products); 
         }
         setLoading(false);
       };
+
+      
 
       useEffect(() => {
         fetchProducts();
@@ -33,7 +34,7 @@ export default function Oculos(props:any) {
   return (
     <>
     <Layout title="Roupas Masculina - 4Streets" color='bg-black/90'  >
-        <div className='w-full h-[700px]  py-[100px] px-10'>
+        <div className='w-full h-full py-[100px] px-10'>
         <Breadcrumbs
       separator="/"
       itemClasses={{
@@ -42,7 +43,7 @@ export default function Oculos(props:any) {
     >
      <BreadcrumbItem> <Link href='/'>Home</Link></BreadcrumbItem>
       <BreadcrumbItem>Acessórios</BreadcrumbItem>
-      <BreadcrumbItem>Óculos</BreadcrumbItem>
+      <BreadcrumbItem>Joias</BreadcrumbItem>
     </Breadcrumbs>
 
 
@@ -54,6 +55,17 @@ export default function Oculos(props:any) {
       ) : (
         <div className='flex flex-wrap items-center justify-center gap-20 mb-14'>
           {itens.map((item) => (
+            <CardHome
+              id={item.id}
+              key={item.id}
+              imagem={item.thumbnail}
+              title={item.title}
+              price={item.price}
+              onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}
+            />
+          ))}
+
+{itemWoman.map((item) => (
             <CardHome
               id={item.id}
               key={item.id}
