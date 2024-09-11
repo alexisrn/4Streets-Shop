@@ -5,6 +5,7 @@ interface CartItem {
   id: number;
   title: string;
   price: number;
+  thumbnail: string;
 }
 
 interface CartContextType {
@@ -40,7 +41,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }, [cart]);
 
   const addToCart = (item: CartItem) => {
-    console.log('Adicionando ao carrinho:', item);
     setCart((prevCart) => {
       const updatedCart = [...prevCart, item];
       setTotal(updatedCart.reduce((acc, curr) => acc + curr.price, 0));
@@ -66,7 +66,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
+    throw new Error("Error in Provider");
   }
   return context;
 };

@@ -7,6 +7,8 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react';
 import Link from 'next/link';
 import { useCart } from '../context/CartContext';
+import CartPage from '@/pages/cart';
+import SideBarCart from '@/components/SideBarCart';
 
 const lobster = Lobster({
   subsets: ['latin'],
@@ -16,7 +18,7 @@ const lobster = Lobster({
 export default function Header(props: any) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   const { cartQuantity } = useCart(); 
 
   useEffect(() => {
@@ -29,6 +31,10 @@ export default function Header(props: any) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
 
   return (
     <header
@@ -91,13 +97,15 @@ export default function Header(props: any) {
         </ul>
       </div>
 
+
+
       {/* Mobile Menu */}
       <ul className="flex text-xl gap-6">
         <li className="cursor-pointer">
           <FaRegUser />
         </li>
-        <Link href="/cart">
-          <li className="cursor-pointer relative">
+        {/* <Link href="/cart"> */}
+          <li className="cursor-pointer relative" onClick={toggleSidebar}>
             <MdOutlineShoppingBag />
             {cartQuantity > 0 && ( 
               <span className="absolute -top-2 -right-3 bg-red-600 text-white rounded-full px-2 py-1 text-xs">
@@ -105,11 +113,14 @@ export default function Header(props: any) {
               </span>
             )}
           </li>
-        </Link>
+        {/* </Link> */}
         <li className="md:hidden cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <RxHamburgerMenu />
         </li>
       </ul>
+
+
+      {sidebarVisible && <SideBarCart close={toggleSidebar}/>}
 
       {isMenuOpen && (
         <ul className="absolute top-[60px] right-0 bg-black/90 text-white w-full p-4 flex flex-col gap-4 md:hidden">
@@ -118,6 +129,7 @@ export default function Header(props: any) {
           <li>Acessórios</li>
         </ul>
       )}
+
     </header>
   );
 }
