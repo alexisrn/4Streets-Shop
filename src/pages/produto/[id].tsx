@@ -14,8 +14,13 @@ export default function Produto() {
   const [imagePrimary, setImagePrimary] = useState<string | null>(null);
   const { addToCart } = useCart();
   
-  const handleAddToCart = (item: { id: number; title: string; price: number }) => {
-    addToCart(item);
+  const handleAddToCart = (item: { id: number; title: string; price: number; thumbnail: string }) => {
+    addToCart({
+      id: item.id,
+      title: item.title,
+      price: item.price,
+      thumbnail: item.thumbnail 
+    });
   };
 
   useEffect(() => {
@@ -76,7 +81,7 @@ export default function Produto() {
 
             <div>
               <Button 
-                onClick={() => handleAddToCart({ id: produto.id, title: produto.title, price: produto.price })}
+                onClick={() => handleAddToCart({ id: produto.id, title: produto.title, price: produto.price, thumbnail: produto.thumbnail })}
                 className="bg-black hover:bg-black text-white font-semibold py-2 px-4 lg:px-9 rounded text-[18px] lg:text-[20px]">
                 Adicionar no carrinho
               </Button>

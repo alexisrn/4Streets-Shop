@@ -18,8 +18,13 @@ export default function SunglassesHome() {
       }
     };
 
-    const handleAddToCart = (item: { id: number; title: string; price: number }) => {
-      addToCart(item);
+    const handleAddToCart = (item: { id: number; title: string; price: number; thumbnail: string }) => {
+      addToCart({
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        thumbnail: item.thumbnail 
+      });
     };
 
     useEffect(() => {
@@ -28,24 +33,7 @@ export default function SunglassesHome() {
       
   return (
     <>
-    <div className='w-full h-full bg-white'>
-        <h2 className='text-center text-5xl py-8 font-bold'>OS MELHORES <span className='text-red-600'>OCÚLOS</span></h2>
    
-   <div className='flex flex-wrap items-center justify-center gap-20 mb-14'>
-    {itens.map((item, i) => (
-        <>
-        <CardHome key={i} imagem={item.thumbnail} title={item.title} price={item.price} id={item.id} onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}/>
-        </>
-    ))}
-   
-    </div>
-        <div className='w-full flex justify-center mb-10'>
-          <button className='bg-transparent
-           hover:bg-black text-black font-semibold hover:text-white py-2 px-9 border border-black hover:border-transparent rounded text-[20px]'>
-            <Link href="/acessorios/oculos">Ver Mais</Link>
-            </button>
-        </div>
-    </div>
     </>
   )
 }

@@ -37,10 +37,14 @@ export default function Relogio(props:any) {
         fetchProductsWoman()
       }, []);
   
-    const handleAddToCart = (item: { id: number; title: string; price: number }) => {
-      addToCart(item);
-
-    };
+      const handleAddToCart = (item: { id: number; title: string; price: number; thumbnail: string }) => {
+        addToCart({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          thumbnail: item.thumbnail 
+        });
+      };
 
   return (
     <>
@@ -72,7 +76,7 @@ export default function Relogio(props:any) {
               imagem={item.thumbnail}
               title={item.title}
               price={item.price}
-              onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}
+              onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price, thumbnail: item.thumbnail })}
             />
           ))}
 
@@ -83,7 +87,7 @@ export default function Relogio(props:any) {
               imagem={item.thumbnail}
               title={item.title}
               price={item.price}
-              onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}
+              onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price, thumbnail: item.thumbnail })}
             />
           ))}
         </div>

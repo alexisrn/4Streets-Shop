@@ -25,9 +25,14 @@ export default function TenisMasculino(props:any) {
         fetchProducts();
       }, []);
   
-    const handleAddToCart = (item: { id: number; title: string; price: number }) => {
-      addToCart(item);
-    };
+      const handleAddToCart = (item: { id: number; title: string; price: number; thumbnail: string }) => {
+        addToCart({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          thumbnail: item.thumbnail 
+        });
+      };
 
   return (
     <>
@@ -59,7 +64,7 @@ export default function TenisMasculino(props:any) {
               imagem={item.thumbnail}
               title={item.title}
               price={item.price}
-              onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price })}
+              onAddToCart={() => handleAddToCart({ id: item.id, title: item.title, price: item.price, thumbnail: item.thumbnail})}
             />
           ))}
         </div>
