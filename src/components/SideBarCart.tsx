@@ -17,6 +17,8 @@ export default function SideBarCart(props: SideBarCartProps) {
             <IoCloseOutline className='text-end cursor-pointer' onClick={props.close} />
           </p>
 
+          <h2 className='text-center text-3xl mb-[30px]'>Carrinho</h2>
+
           {cart.length === 0 ? (
             <p>O carrinho está vazio.</p>
           ) : (
@@ -42,9 +44,20 @@ export default function SideBarCart(props: SideBarCartProps) {
                   </li>
                 ))}
               </ul>
-              <h2>Total: R$ {total.toFixed(2)}</h2>
+
+              <div className=' flex justify-center'>
+              <h2 className='border-t-1 border-b-1 py-[10px] px-[30px] font-bold text-xl'>Subtotal: R$ {total.toFixed(2)}</h2>
+
+
+              </div>
+
             </div>
           )}
+
+            <div className='flex justify-center mt-4'>
+            <button className='bg-red-500 text-white text-xl py-2 px-[55px] flex justify-center items-center transition duration-300 ease-in-out hover:bg-red-700 '>Finalizar Pedido</button>
+            </div>
+
         </div>
       </div>
     </>
