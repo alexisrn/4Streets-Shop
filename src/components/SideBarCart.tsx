@@ -22,7 +22,7 @@ export default function SideBarCart(props: SideBarCartProps) {
           {cart.length === 0 ? (
             <p>O carrinho está vazio.</p>
           ) : (
-            <div className="overflow-y-scroll max-h-[60vh] px-4"> {/* Adiciona a rolagem */}
+            <div className="overflow-y-scroll max-h-[60vh] px-4"> 
               <ul>
                 {cart.map((item) => (
                   <li key={item.id} className="flex items-center mb-4">
