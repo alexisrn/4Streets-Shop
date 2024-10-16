@@ -3,11 +3,9 @@ import { Lobster } from 'next/font/google';
 import { FaRegUser } from 'react-icons/fa';
 import { MdOutlineShoppingBag } from 'react-icons/md';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { IoMdArrowDropdown } from 'react-icons/io';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react';
+import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import Link from 'next/link';
 import { useCart } from '../context/CartContext';
-import CartPage from '@/pages/cart';
 import SideBarCart from '@/components/SideBarCart';
 
 const lobster = Lobster({
@@ -20,6 +18,8 @@ export default function Header(props: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const { cartQuantity } = useCart(); 
+  const [isVestuarioOpen, setIsVestuarioOpen] = useState(false); // controle do dropdown Vestuário no mobile
+  const [isAcessoriosOpen, setIsAcessoriosOpen] = useState(false); // controle do dropdown Acessórios no mobile
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +36,8 @@ export default function Header(props: any) {
     setSidebarVisible(!sidebarVisible);
   };
 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
     <header
       className={`fixed w-full flex justify-between px-[30px] z-10 items-center text-white transition-colors duration-300 ${
@@ -48,88 +50,76 @@ export default function Header(props: any) {
         </Link>
         <ul className='hidden md:flex items-center gap-12 text-[20px] mt-3 ml-10'>
           <li className="cursor-pointer">
-           <Link href="/">Ofertas</Link>
-            </li>
+            <Link href="/">Ofertas</Link>
+          </li>
 
-          <Dropdown className='bg-black/90 text-white rounded-[8px] mt-[3px]'>
-            <DropdownTrigger>
-              <li className='flex items-center cursor-pointer'>
-                Vestuário <IoMdArrowDropdown />
-              </li>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Static Actions">
-              <DropdownItem key="mens-clothing">
-                <Link href="/vestuario/roupasMasculina">Roupas Masculina</Link>
-              </DropdownItem>
-              <DropdownItem key="mens-shoes">
-                <Link href="/vestuario/tenisMasculino">Tenis Masculino</Link>
-              </DropdownItem>
-              <DropdownItem key="womens-clothing">
-                <Link href="/vestuario/roupasFeminina">Roupas Feminina</Link>
-              </DropdownItem>
-              <DropdownItem key="womens-shoes">
-                <Link href="/vestuario/sapatosFeminino">Sapatos Feminino</Link>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <li className="relative cursor-pointer">
+            <div className="flex items-center">
+              Vestuário <IoMdArrowDropdown />
+            </div>
+          </li>
 
-          <Dropdown className='bg-black/90 text-white rounded-[8px] mt-[3px]'>
-            <DropdownTrigger>
-              <li className='flex items-center cursor-pointer'>
-                Acessórios <IoMdArrowDropdown />
-              </li>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Static Actions">
-              <DropdownItem key="sunglasses">
-               <Link href="/acessorios/oculos">Óculos</Link> 
-              </DropdownItem>
-              <DropdownItem key="watches">
-              <Link href="/acessorios/relogios">Relógio</Link>  
-                </DropdownItem>
-              <DropdownItem key="bags">
-              <Link href="/acessorios/bolsas">Bolsa</Link>
-              </DropdownItem>
-              <DropdownItem key="jewelry">
-              <Link href="/acessorios/joias">Joias</Link>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+         
+          <li className="relative cursor-pointer">
+            <div className="flex items-center">
+              Acessórios <IoMdArrowDropdown />
+            </div>
+          </li>
         </ul>
       </div>
 
 
-
-      {/* Mobile Menu */}
       <ul className="flex text-xl gap-6">
         <li className="cursor-pointer">
           <FaRegUser />
         </li>
-        {/* <Link href="/cart"> */}
-          <li className="cursor-pointer relative" onClick={toggleSidebar}>
-            <MdOutlineShoppingBag />
-            {cartQuantity > 0 && ( 
-              <span className="absolute -top-2 -right-3 bg-red-600 text-white rounded-full px-2 py-1 text-xs">
-                {cartQuantity}
-              </span>
-            )}
-          </li>
-        {/* </Link> */}
-        <li className="md:hidden cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <li className="cursor-pointer relative" onClick={toggleSidebar}>
+          <MdOutlineShoppingBag />
+          {cartQuantity > 0 && ( 
+            <span className="absolute -top-2 -right-3 bg-red-600 text-white rounded-full px-2 py-1 text-xs">
+              {cartQuantity}
+            </span>
+          )}
+        </li>
+        <li className="md:hidden cursor-pointer" onClick={toggleMenu}>
           <RxHamburgerMenu />
         </li>
       </ul>
-
 
       {sidebarVisible && <SideBarCart close={toggleSidebar}/>}
 
       {isMenuOpen && (
         <ul className="absolute top-[60px] right-0 bg-black/90 text-white w-full p-4 flex flex-col gap-4 md:hidden">
           <li>Ofertas</li>
-          <li>Vestuário</li>
-          <li>Acessórios</li>
+          <li>
+            <div className="flex justify-between items-center cursor-pointer" onClick={() => setIsVestuarioOpen(!isVestuarioOpen)}>
+              Vestuário {isVestuarioOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+            </div>
+            {isVestuarioOpen && (
+              <ul className="pl-4 mt-2">
+                <li><Link href="/vestuario/roupasMasculina">Roupas Masculina</Link></li>
+                <li><Link href="/vestuario/tenisMasculino">Tenis Masculino</Link></li>
+                <li><Link href="/vestuario/roupasFeminina">Roupas Feminina</Link></li>
+                <li><Link href="/vestuario/sapatosFeminino">Sapatos Feminino</Link></li>
+              </ul>
+            )}
+          </li>
+          
+          <li>
+            <div className="flex justify-between items-center cursor-pointer" onClick={() => setIsAcessoriosOpen(!isAcessoriosOpen)}>
+              Acessórios {isAcessoriosOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+            </div>
+            {isAcessoriosOpen && (
+              <ul className="pl-4 mt-2">
+                <li><Link href="/acessorios/oculos">Óculos</Link></li>
+                <li><Link href="/acessorios/relogios">Relógio</Link></li>
+                <li><Link href="/acessorios/bolsas">Bolsa</Link></li>
+                <li><Link href="/acessorios/joias">Joias</Link></li>
+              </ul>
+            )}
+          </li>
         </ul>
       )}
-
     </header>
   );
 }
