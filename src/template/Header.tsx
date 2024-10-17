@@ -18,8 +18,8 @@ export default function Header(props: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const { cartQuantity } = useCart(); 
-  const [isVestuarioOpen, setIsVestuarioOpen] = useState(false); // controle do dropdown Vestuário no mobile
-  const [isAcessoriosOpen, setIsAcessoriosOpen] = useState(false); // controle do dropdown Acessórios no mobile
+  const [isVestuarioOpen, setIsVestuarioOpen] = useState(false);
+  const [isAcessoriosOpen, setIsAcessoriosOpen] = useState(false); 
 
   useEffect(() => {
     const handleScroll = () => {
